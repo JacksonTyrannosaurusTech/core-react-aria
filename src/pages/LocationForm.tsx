@@ -9,6 +9,7 @@ import Button from "../components/Button";
 import { PressEvent } from "react-aria-components";
 import { COUNTRIES_LIST } from "../constants/countryList";
 import { MARTIAL_STATUS_LIST } from "../constants/martialStatusList";
+import Progress from "../components/Progress";
 
 export type LocationFormProps = HTMLAttributes<HTMLFormElement> & {
   onSkip: (e: PressEvent) => void,
@@ -25,7 +26,7 @@ function LocationForm({ className, onBack, onNext, onSkip, ...rest }: LocationFo
             <h1 className="font-semibold text-xl">Where are you located?</h1>
           </div>
           <div>
-            {/* TODO: Add progress */}
+            <Progress length={6} step={4}  />
           </div>
           <div>
             <p className="text-sm text-slate-500">Kindly provide us with your current location information so that we can tailor our services or content to better suit your specific geographic context and offer a more personalized experience.</p>

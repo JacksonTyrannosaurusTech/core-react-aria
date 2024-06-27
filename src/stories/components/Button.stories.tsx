@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Button from '../components/Button';
+import Button from '../../components/Button';
 
 //👇 This default export determines where your story goes in the story list
 const meta: Meta<typeof Button> = {
-  title: "Buttons",
+  title: "Inputs/Buttons",
   component: Button,
   argTypes: {
     children: {

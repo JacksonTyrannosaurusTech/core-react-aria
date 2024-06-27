@@ -60,9 +60,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps<ButtonProps>>(({
   return (
     <AriaSelect ref={containerRef} className={classNames("inline-flex flex-col min-w-60", className)} {...rest}>
       {!!label && (
-        <div>
           <Label>{label}</Label>
-        </div>
       )}
       <div>
         <Button ref={ref} className={classNames("flex flex-row items-center justify-between w-full bg-slate-200 rounded-xl h-12 outline outline-transparent focus:outline-blue-600 p-3", selectButtonProps)} {...selectButtonProps}>
@@ -70,7 +68,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps<ButtonProps>>(({
             {prependItem && (
               <span className="flex flex-column items-center justify-center h-full">{prependItem}</span>
             )}
-            <SelectValue />
+            <SelectValue className={({isPlaceholder}) => isPlaceholder ? "text-slate-500" : "text-slate-900"} />
           </span>
 
           <span className="flex gap-2">

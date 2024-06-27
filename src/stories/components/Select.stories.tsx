@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Select from '../components/Select';
+import Select from '../../components/Select';
 import { BeakerIcon, FlagIcon } from '@heroicons/react/24/solid'
-import { US_STATE_LIST } from '../constants/usStates';
+import { US_STATE_LIST } from '../../constants/usStateList';
 
 const meta: Meta<typeof Select> = {
   title: "Inputs/Select",

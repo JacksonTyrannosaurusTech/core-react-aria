@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import TextInput from '../components/TextInput';
+import TextInput from '../../components/TextInput';
 import { BeakerIcon } from '@heroicons/react/24/solid'
 
 const meta: Meta<typeof TextInput> = {

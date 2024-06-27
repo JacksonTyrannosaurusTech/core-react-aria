@@ -58,20 +58,20 @@ const Select = forwardRef<HTMLButtonElement, SelectProps<ButtonProps>>(({
   const [containerRef, { width }] = useMeasure();
 
   return (
-    <AriaSelect ref={containerRef} className={classNames("inline-flex flex-col min-w-60", className)} {...rest}>
+    <AriaSelect ref={containerRef} className={classNames("inline-flex flex-col w-full min-w-60", className)} {...rest}>
       {!!label && (
           <Label>{label}</Label>
       )}
       <div>
         <Button ref={ref} className={classNames("flex flex-row items-center justify-between w-full bg-slate-200 rounded-xl h-12 outline outline-transparent focus:outline-blue-600 p-3", selectButtonProps)} {...selectButtonProps}>
-          <span className="flex gap-2">
+          <span className="flex gap-3 pr-3">
             {prependItem && (
               <span className="flex flex-column items-center justify-center h-full">{prependItem}</span>
             )}
             <SelectValue className={({isPlaceholder}) => isPlaceholder ? "text-slate-500" : "text-slate-900"} />
           </span>
 
-          <span className="flex gap-2">
+          <span className="flex gap-3">
             {appendItem && (
               <span className="flex flex-column items-center justify-center h-full">{appendItem}</span>
             )}

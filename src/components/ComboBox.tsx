@@ -60,7 +60,7 @@ const ComboBox = forwardRef<HTMLInputElement, SelectProps<InputProps>>(({
   const [containerRef, { width }] = useMeasure();
 
   return (
-    <AriaComboBox ref={containerRef} className={classNames("inline-flex flex-col min-w-60", className)} {...rest}>
+    <AriaComboBox ref={containerRef} className={classNames("inline-flex flex-col w-full min-w-60", className)} {...rest}>
       {!!label && (
         <Label>{label}</Label>
       )}
@@ -73,9 +73,9 @@ const ComboBox = forwardRef<HTMLInputElement, SelectProps<InputProps>>(({
         {prependItem && (
           <span className="inline-flex flex-column items-center justify-center h-full pl-3">{prependItem}</span>
         )}
-        <Input ref={ref} {...textInputProps} className="inline-block outline-none bg-transparent h-12 p-3 flex-1 placeholder:text-slate-500 w-min" />
+        <Input ref={ref} {...textInputProps} className="inline-block outline-none bg-transparent h-12 p-3 flex-1 placeholder:text-slate-500 w-full" />
         {appendItem && (
-          <span className="inline-flex flex-column items-center justify-center h-full">{appendItem}</span>
+          <span className="inline-flex flex-column items-center justify-center h-full pl-3">{appendItem}</span>
         )}
         <Button className={classNames("px-3", selectButtonProps)} {...selectButtonProps}>
           <span aria-hidden="true">

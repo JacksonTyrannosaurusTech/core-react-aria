@@ -18,7 +18,7 @@ export type LocationFormProps = HTMLAttributes<HTMLFormElement> & {
 
 function LocationForm({ className, onBack, onNext, onSkip, ...rest }: LocationFormProps) {
   return (
-    <div className={classNames("bg-white border border-slate-200 rounded-3xl p-6 max-w-3xl shadow-sm", className)}>
+    <div className={classNames("bg-white border border-slate-200 rounded-3xl w-full p-6 max-w-4xl shadow-sm", className)}>
       <form {...rest}>
         <div className="flex flex-col gap-6 ">
           <div>

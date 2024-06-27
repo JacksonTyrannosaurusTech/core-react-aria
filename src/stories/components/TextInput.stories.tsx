@@ -5,6 +5,10 @@ import { BeakerIcon } from '@heroicons/react/24/solid'
 const meta: Meta<typeof TextInput> = {
   title: "Inputs/TextInput",
   component: TextInput,
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+  },
   args: {
     label: "Label",
     placeholder: "Text Input"
@@ -17,9 +21,13 @@ type Story = StoryObj<typeof TextInput>
 export const _TextInput: Story = {}
 
 export const _PrependIconTextInput: Story = {
-  render: (props) => <TextInput {...props} prependItem={<BeakerIcon className="w-6 text-slate-600" />} />
+  args: {
+    prependItem: <BeakerIcon className="w-6 text-slate-600" />,
+  },
 }
 
 export const _AppendIconTextInput: Story = {
-  render: (props) => <TextInput {...props} appendItem={<BeakerIcon className="w-6 text-slate-600" />} />
+  args: {
+    appendItem: <BeakerIcon className="w-6 text-slate-600" />,
+  },
 }

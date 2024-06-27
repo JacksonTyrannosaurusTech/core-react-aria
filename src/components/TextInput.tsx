@@ -22,7 +22,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
   return (
     <TextField {...textFieldProps} className={
       classNames(
-        "inline-flex flex-col",
+        "inline-flex flex-col w-full min-w-60",
         textFieldProps?.className
       )}>
         {label && (

@@ -32,7 +32,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       ref={ref}
       className={
         classNames(
-          "inline-flex items-center justify-center min-w-[120px] h-12 p-3 rounded-xl border border-solid font-medium",
+          "inline-flex items-center justify-center min-w-[120px] h-12 p-3 rounded-xl border border-solid font-medium outline focus:outline-blue-600",
           ButtonVariant(),
           className
         )

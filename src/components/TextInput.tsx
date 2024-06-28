@@ -8,6 +8,7 @@ export type TextInputProps = InputProps & React.RefAttributes<HTMLInputElement> 
   label?: string,
   prependItem?: ReactNode,
   appendItem?: ReactNode,
+  errorMessage?: string,
 }
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
@@ -17,6 +18,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
   label,
   prependItem,
   appendItem,
+  errorMessage,
   ...rest
 }, ref) => {
   return (
@@ -25,7 +27,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
         "inline-flex flex-col w-full min-w-60",
         textFieldProps?.className
       )}>
-        {label && (
+      {label && (
         <Text slot="description" className={classNames(
           "font-medium text-black leading-6 min-w-60",
           labelProps?.className
@@ -42,13 +44,18 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
               "rounded-l-none pl-0": !!prependItem,
               "rounded-r-none pr-0": !!appendItem,
             }
-            )} 
-            {...rest} 
-          />
+          )}
+          {...rest}
+        />
         {appendItem && (
           <span className="flex flex-column items-center justify-center h-full p-2">{appendItem}</span>
         )}
       </Label>
+      {errorMessage && (
+        <div className="text-xs text-red-500">
+          <span>{errorMessage}</span>
+        </div>
+      )}
     </TextField>
   )
 });

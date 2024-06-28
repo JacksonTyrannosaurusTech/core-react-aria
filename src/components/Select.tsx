@@ -32,6 +32,7 @@ export type SelectProps<T extends object> = Omit<AriaSelectProps<T>, "children">
   prependItem?: ReactNode,
   appendItem?: ReactNode,
   selectIcon?: ReactNode,
+  errorMessage?: string,
 }
 
 function ListItem({ label, description, className, ...rest }: ListItemProps) {
@@ -53,6 +54,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps<ButtonProps>>(({
   prependItem,
   appendItem,
   selectIcon,
+  errorMessage,
   ...rest
 }, ref) => {
   const [containerRef, { width }] = useMeasure();
@@ -60,7 +62,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps<ButtonProps>>(({
   return (
     <AriaSelect ref={containerRef} className={classNames("inline-flex flex-col w-full min-w-60", className)} {...rest}>
       {!!label && (
-          <Label>{label}</Label>
+        <Label>{label}</Label>
       )}
       <div>
         <Button ref={ref} className={classNames("flex flex-row items-center justify-between w-full bg-slate-200 rounded-xl h-12 outline outline-transparent focus:outline-blue-600 p-3", selectButtonProps)} {...selectButtonProps}>
@@ -68,7 +70,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps<ButtonProps>>(({
             {prependItem && (
               <span className="flex flex-column items-center justify-center h-full">{prependItem}</span>
             )}
-            <SelectValue className={({isPlaceholder}) => isPlaceholder ? "text-slate-500" : "text-slate-900"} />
+            <SelectValue className={({ isPlaceholder }) => isPlaceholder ? "text-slate-500" : "text-slate-900"} />
           </span>
 
           <span className="flex gap-3">
@@ -80,6 +82,11 @@ const Select = forwardRef<HTMLButtonElement, SelectProps<ButtonProps>>(({
             </span>
           </span>
         </Button>
+        {errorMessage && (
+          <div className="text-xs text-red-500">
+            <span>{errorMessage}</span>
+          </div>
+        )}
         <Popover style={{ width: width || 240 }} {...popoverProps}>
           <ListBox {...listBoxProps} className={classNames("bg-slate-200 text-slate-900 rounded-xl w-full h-64 overflow-y-scroll", listBoxProps?.className)}>
             {items.map((item, i) => (

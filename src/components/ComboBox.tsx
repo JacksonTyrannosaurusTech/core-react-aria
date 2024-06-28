@@ -34,11 +34,12 @@ export type SelectProps<T extends object> = Omit<AriaComboBoxProps<T>, "children
   prependItem?: ReactNode,
   appendItem?: ReactNode,
   selectIcon?: ReactNode,
+  errorMessage?: string,
 }
 
 function ComboBoxItem({ label, className, ...rest }: ComboBoxItemProps) {
   return (
-    <ListBoxItem {...rest} className={classNames("p-3 w-full first-of-type:rounded-t-xl last-of-type:rounded-b-xl outline-none hover:bg-slate-300", className)}>
+    <ListBoxItem {...rest} id={label} className={classNames("p-3 w-full first-of-type:rounded-t-xl last-of-type:rounded-b-xl outline-none hover:bg-slate-300", className)}>
       {label}
     </ListBoxItem>
   )
@@ -55,6 +56,7 @@ const ComboBox = forwardRef<HTMLInputElement, SelectProps<InputProps>>(({
   prependItem,
   appendItem,
   selectIcon,
+  errorMessage,
   ...rest
 }, ref) => {
   const [containerRef, { width }] = useMeasure();
@@ -83,6 +85,11 @@ const ComboBox = forwardRef<HTMLInputElement, SelectProps<InputProps>>(({
           </span>
         </Button>
       </div>
+      {errorMessage && (
+        <div className="text-xs text-red-500">
+          <span>{errorMessage}</span>
+        </div>
+      )}
       <Popover style={{ width: width || 240 }} {...popoverProps}>
         <ListBox {...listBoxProps} className={classNames("bg-slate-200 text-slate-900 rounded-xl w-full h-64 overflow-y-scroll", listBoxProps?.className)}>
           {items.map((item, i) => (

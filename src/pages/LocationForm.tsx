@@ -1,5 +1,5 @@
-import classNames from "classnames";
 import { HTMLAttributes } from "react";
+import classNames from "classnames";
 import TextInput from "../components/TextInput";
 import ComboBox from "../components/ComboBox";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
@@ -10,41 +10,128 @@ import { PressEvent } from "react-aria-components";
 import { COUNTRIES_LIST } from "../constants/countryList";
 import { MARTIAL_STATUS_LIST } from "../constants/martialStatusList";
 import Progress from "../components/Progress";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-export type LocationFormProps = HTMLAttributes<HTMLFormElement> & {
-  onSkip: (e: PressEvent) => void,
-  onBack: (e: PressEvent) => void,
-  onNext: (e: PressEvent) => void,
+export type LocationFormFields = {
+  address: string,
+  unit?: string,
+  city: string,
+  country: string,
+  state: string,
+  zipcode: string,
+  "martial-status": string,
+  "annual-income": string,
+}
+
+export type LocationFormProps = Omit<HTMLAttributes<HTMLFormElement>, "onSubmit"> & {
+  onSkip?: (e: PressEvent) => void,
+  onBack?: (e: PressEvent) => void,
+  onNext?: (data: LocationFormFields, e?: React.BaseSyntheticEvent) => void,
 }
 
 function LocationForm({ className, onBack, onNext, onSkip, ...rest }: LocationFormProps) {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<LocationFormFields>()
+
+  const onSubmit: SubmitHandler<LocationFormFields> = (data, e) => {
+    console.log({ data })
+    onNext?.(data, e)
+  }
+
   return (
     <div className={classNames("bg-white border border-slate-200 rounded-3xl w-full p-6 max-w-4xl shadow-sm", className)}>
-      <form {...rest}>
+      <form onSubmit={handleSubmit(onSubmit)} {...rest}>
         <div className="flex flex-col gap-6 ">
           <div>
             <h1 className="font-semibold text-xl">Where are you located?</h1>
           </div>
           <div>
-            <Progress length={6} step={4}  />
+            <Progress length={6} step={4} />
           </div>
           <div>
             <p className="text-sm text-slate-500">Kindly provide us with your current location information so that we can tailor our services or content to better suit your specific geographic context and offer a more personalized experience.</p>
           </div>
           <div className="grid grid-cols-3 gap-6">
-            <TextInput name="address" label="Address" placeholder="Enter Address" />
-            <TextInput name="unit" label="Unit Or Apt Number" placeholder="Enter Unit or Apt" />
-            <TextInput name="city" label="City" placeholder="Enter City" />
-            <ComboBox name="country" label="Country" placeholder="Enter Country" items={COUNTRIES_LIST.map(state => ({ label: state }))} selectIcon={<MagnifyingGlassIcon className="w-6 text-slate-600" />} />
-            <Select name="state" label="State" placeholder="Enter State" items={US_STATE_LIST.map(state => ({ label: state }))} />
-            <TextInput name="zipcode" placeholder="Enter ZIP Code" label="ZIP Code" />
+            <TextInput
+              {...register("address", {
+                required: "Please provide an Address"
+              })}
+              label="Address"
+              placeholder="Enter Address"
+              errorMessage={errors.address?.message}
+            />
+            <TextInput
+              {...register("unit")}
+              label="Unit Or Apt Number"
+              placeholder="Enter Unit or Apt"
+              errorMessage={errors.unit?.message}
+            />
+            <TextInput
+              {...register("city", {
+                required: "Please provide a City"
+              })}
+              label="City"
+              placeholder="Enter City"
+              errorMessage={errors.city?.message}
+            />
+            <ComboBox
+              {...register("country",
+                { required: "Please select a Country" })}
+              label="Country"
+              placeholder="Enter Country"
+              items={COUNTRIES_LIST.map(state => ({ label: state }))}
+              selectIcon={<MagnifyingGlassIcon className="w-6 text-slate-600" />}
+              onInputChange={(value) => setValue('country', value)}
+              errorMessage={errors.country?.message}
+            />
+            <Select
+              {...register("state", {
+                required: "Please select a State"
+              })}
+              label="State"
+              placeholder="Enter State"
+              items={US_STATE_LIST.map(state => ({ label: state }))}
+              onSelectionChange={(selected) => {
+                console.log({ selected })
+              }}
+              errorMessage={errors.state?.message}
+            />
+            <TextInput
+              {...register("zipcode", {
+                required: "Please provide a Zipcode"
+              })}
+              placeholder="Enter ZIP Code"
+              label="ZIP Code"
+              errorMessage={errors.zipcode?.message}
+            />
           </div>
           <div>
             <h3 className="text-base font-medium">Additional information</h3>
           </div>
           <div className="grid grid-cols-2 gap-6">
-            <Select name="martial-status" label="Marital Status" placeholder="Select" items={MARTIAL_STATUS_LIST.map(state => ({ label: state }))} />
-            <TextInput name="annual-income" label="Annual Income (USD)" placeholder="Enter Income" />
+            <Select
+              {...register("martial-status", {
+                required: "Please provide a Martial Status"
+              })}
+              label="Marital Status"
+              placeholder="Select"
+              items={MARTIAL_STATUS_LIST.map(state => ({ label: state }))}
+              onSelectionChange={(key) => setValue('martial-status', key?.toString() ?? "")}
+              errorMessage={errors["martial-status"]?.message}
+            />
+            <TextInput
+              {...register("annual-income", {
+                required: "Please provide your Annual Income"
+              })}
+              label="Annual Income (USD)"
+              placeholder="Enter Income"
+              errorMessage={errors['annual-income']?.message}
+
+            />
           </div>
           <div className="flex justify-between pt-28">
             <div>
@@ -52,7 +139,7 @@ function LocationForm({ className, onBack, onNext, onSkip, ...rest }: LocationFo
             </div>
             <div className="flex gap-6">
               <Button variant="outline" onPress={onBack}>Back</Button>
-              <Button onPress={onNext}>Next</Button>
+              <Button type="submit">Next</Button>
             </div>
           </div>
         </div>
